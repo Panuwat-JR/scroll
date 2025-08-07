@@ -1,44 +1,51 @@
 import 'package:flutter/material.dart';
-
+ 
 void main() {
   runApp(const MyApp());
 }
-
+ 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+ 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Flutter Demo',
-      home: MyHomePage(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      ),
+      home: const MyHomePage(),
     );
   }
 }
-
+ 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
-
+ 
   @override
   Widget build(BuildContext context) {
+    final List<String> entries = List<String>.generate(
+      50,
+      (i) => 'Item ${i + 1}',
+    );
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stack Example'),
-        backgroundColor: Colors.deepPurple,
+        title: Text('Chapter 6'),
+        centerTitle: true,
+        backgroundColor: Colors.blueAccent,
       ),
-      body: Center( // ✅ จัด Stack ให้อยู่กลางจอ
-        child: Stack(
-          alignment: Alignment.center, // จัดกึ่งกลาง children ที่ไม่ได้กำหนดตำแหน่ง
-          children: <Widget>[
-            Container(width: 200, height: 200, color: Colors.blue),   // ชั้นล่างสุด
-            Container(width: 150, height: 150, color: Colors.green),  // ชั้นกลาง
-            Container(width: 100, height: 100, color: Colors.red),    // ชั้นบนสุด
-            const Text(
-              'Layered',
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          ],
-        ),
+      body: ListView.builder(
+        itemCount: entries.length, // จำนวนรายการทั้งหมด
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            title: Text(entries[index]),
+            subtitle: Text('subtitle ${entries[index]}'),
+            onTap: () {
+              print('Tap in ${entries[index]}');
+            },
+          );
+        },
       ),
     );
   }
